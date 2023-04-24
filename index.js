@@ -74,13 +74,15 @@ app.all('*',(req,res)=>{
 app.use(errorHandler)
 //listen to mongoose connection
 const start = async() =>{
-    await connectDB(process.env.DATABASE_URI)
-    mongoose.connection.once('open', () => {
+    try{
+        await connectDB(process.env.DATABASE_URI)
         console.log('connected to mongoDB')
         app.listen(PORT, ()=>{
             console.log(`serve is listening to ${PORT}`)
         })
-    })
+    }catch(err){
+        console.log(err)
+    }
 }
 
 start()
